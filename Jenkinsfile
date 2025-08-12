@@ -1,29 +1,14 @@
 pipeline {
-    agent any
-
-    stages {
-        stage('Build') {
-            steps {
-                buildApp()
-            }
-        }
-
-        stage('Test') {
-            steps {
-                runTests()
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                deployApp()
-            }
+    agent {
+        node {
+            label "linux && java17"
         }
     }
-
-    post {
-        always {
-            cleanupWorkspace()
+    stages {
+        stage("hello") {
+            steps {
+                echo("hello pipeline")
+            }
         }
     }
 }
