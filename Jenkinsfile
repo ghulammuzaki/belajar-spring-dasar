@@ -1,13 +1,22 @@
 pipeline {
-    agent {
-        node {
-            label "linux && java17"
-        }
-    }
+    agent any
+
     stages {
-        stage("hello") {
+        stage('Build') {
             steps {
-                echo("hello pipeline")
+                echo "🔨 Build aplikasi..."
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "🧪 Menjalankan test..."
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "🚀 Deploy aplikasi..."
             }
         }
     }
