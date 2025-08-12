@@ -1,10 +1,29 @@
 pipeline {
     agent any
+
     stages {
-        stage("hello") {
+        stage('Build') {
             steps {
-                echo("hello pipeline")
+                buildApp()
             }
+        }
+
+        stage('Test') {
+            steps {
+                runTests()
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                deployApp()
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanupWorkspace()
         }
     }
 }
