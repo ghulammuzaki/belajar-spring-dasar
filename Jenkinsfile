@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        AUTHOR = "Ghulam Muzaki"
+        EMAIIL = "echo.ghulammuzaki1201@gmail.com"
+    }
     stages {
         stage('Prepare') {
             agent {
