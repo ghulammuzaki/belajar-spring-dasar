@@ -2,16 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
-            steps {
-                echo "🔨 Build aplikasi..."
-            }
-        }
-        stage("pereppare") {
+        stage('Prepare') {
             agent {
-                node {
-                  label "ubuntu"
-                }
+                label "ubuntu" // Penulisan yang lebih ringkas
             }
             steps {
                 echo("Start Job : ${env.JOB_NAME}")
@@ -20,16 +13,40 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                echo "🔨 Build aplikasi..."
+                // Ganti dengan perintah build yang sesungguhnya, contoh:
+                // sh 'mvn clean install'
+            }
+        }
+
         stage('Test') {
             steps {
                 echo "🧪 Menjalankan test..."
+                // Ganti dengan perintah test yang sesungguhnya, contoh:
+                // sh 'mvn test'
+                // junit 'target/surefire-reports/*.xml'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo "🚀 Deploy aplikasi..."
+                // Ganti dengan perintah deploy yang sesungguhnya, contoh:
+                // sh './deploy-to-server.sh'
             }
+        }
+    }
+
+    post {
+        // Notifikasi akan dikirim jika pipeline berhasil
+        success {
+            slackSend(color: '#2eb886', message: "✅ Berhasil: Job '${env.JOB_NAME}' (build ${env.BUILD_NUMBER}) berhasil selesai.")
+        }
+        // Notifikasi akan dikirim jika pipeline gagal
+        failure {
+            slackSend(color: '#a30200', message: "❌ Gagal: Job '${env.JOB_NAME}' (build ${env.BUILD_NUMBER}) gagal! Lihat di ${env.BUILD_URL}")
         }
     }
 }
