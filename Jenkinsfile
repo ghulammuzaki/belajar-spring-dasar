@@ -39,6 +39,11 @@ pipeline {
         }
 
         stage('Deploy') {
+            input {
+                message "can we deploy?"
+                ok "yes, of course"
+                submitter "ghlmmz"
+            }
             steps {
                 echo "🚀 Deploy aplikasi..."
                 // Ganti dengan perintah deploy yang sesungguhnya, contoh:
