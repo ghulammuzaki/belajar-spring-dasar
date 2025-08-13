@@ -3,12 +3,12 @@ pipeline {
 
     environment {
         AUTHOR = "Ghulam Muzaki"
-        EMAIIL = "echo.ghulammuzaki1201@gmail.com"
+        EMAIL = "echo.ghulammuzaki1201@gmail.com"
     }
     triggers {
-        cron("*/5 * * * *")
+        pollSCM("*/5 * * * *")
     }
-    
+
     stages {
         stage('Prepare') {
             agent {
