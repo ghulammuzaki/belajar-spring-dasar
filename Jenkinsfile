@@ -5,6 +5,10 @@ pipeline {
         AUTHOR = "Ghulam Muzaki"
         EMAIIL = "echo.ghulammuzaki1201@gmail.com"
     }
+    triggers {
+        cron("*/5 * * * *")
+    }
+    
     stages {
         stage('Prepare') {
             agent {
