@@ -5,6 +5,7 @@ pipeline {
         AUTHOR = "Ghulam Muzaki"
         EMAIL = "echo.ghulammuzaki1201@gmail.com"
     }
+
     triggers {
         pollSCM("*/5 * * * *")
     }
@@ -12,7 +13,7 @@ pipeline {
     stages {
         stage('Prepare') {
             agent {
-                label "ubuntu" // Penulisan yang lebih ringkas
+                label "ubuntu"
             }
             steps {
                 echo("Start Job : ${env.JOB_NAME}")
@@ -21,43 +22,45 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                echo "🔨 Build aplikasi..."
-                // Ganti dengan perintah build yang sesungguhnya, contoh:
-                // sh 'mvn clean install'
-            }
-        }
+        stage('Build & Test in Parallel') {
+            parallel {
+                stage('Build') {
+                    steps {
+                        echo "🔨 Build aplikasi..."
+                        // Contoh perintah build:
+                        // sh 'mvn clean install'
+                    }
+                }
 
-        stage('Test') {
-            steps {
-                echo "🧪 Menjalankan test..."
-                // Ganti dengan perintah test yang sesungguhnya, contoh:
-                // sh 'mvn test'
-                // junit 'target/surefire-reports/*.xml'
+                stage('Test') {
+                    steps {
+                        echo "🧪 Menjalankan test..."
+                        // Contoh perintah test:
+                        // sh 'mvn test'
+                        // junit 'target/surefire-reports/*.xml'
+                    }
+                }
             }
         }
 
         stage('Deploy') {
             input {
-                message "can we deploy?"
-                ok "yes, of course"
+                message "Can we deploy?"
+                ok "Yes, of course"
                 submitter "ghlmmz"
             }
             steps {
                 echo "🚀 Deploy aplikasi..."
-                // Ganti dengan perintah deploy yang sesungguhnya, contoh:
+                // Contoh perintah deploy:
                 // sh './deploy-to-server.sh'
             }
         }
     }
 
     post {
-        // Notifikasi akan dikirim jika pipeline berhasil
         success {
             slackSend(color: '#2eb886', message: "✅ Berhasil: Job '${env.JOB_NAME}' (build ${env.BUILD_NUMBER}) berhasil selesai.")
         }
-        // Notifikasi akan dikirim jika pipeline gagal
         failure {
             slackSend(color: '#a30200', message: "❌ Gagal: Job '${env.JOB_NAME}' (build ${env.BUILD_NUMBER}) gagal! Lihat di ${env.BUILD_URL}")
         }
