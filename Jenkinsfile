@@ -49,7 +49,7 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: "Ghulam_123",
+                    credentialsId: "Jenkins-aent1",
                     usernameVariable: "USER",
                     passwordVariable: "PASSWORD"
                 )]) {
