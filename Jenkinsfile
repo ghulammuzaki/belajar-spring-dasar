@@ -27,7 +27,6 @@ pipeline {
                 stage('Build') {
                     steps {
                         echo "🔨 Build aplikasi..."
-                        // Contoh perintah build:
                         // sh 'mvn clean install'
                     }
                 }
@@ -35,7 +34,6 @@ pipeline {
                 stage('Test') {
                     steps {
                         echo "🧪 Menjalankan test..."
-                        // Contoh perintah test:
                         // sh 'mvn test'
                         // junit 'target/surefire-reports/*.xml'
                     }
@@ -50,9 +48,18 @@ pipeline {
                 submitter "ghlmmz"
             }
             steps {
-                echo "🚀 Deploy aplikasi..."
-                // Contoh perintah deploy:
-                // sh './deploy-to-server.sh'
+                withCredentials([usernamePassword(credentialsId: 'deploy-credentials', 
+                                                  usernameVariable: 'DEPLOY_USER', 
+                                                  passwordVariable: 'DEPLOY_PASS')]) {
+                    sh '''
+                        echo "🚀 Deploy aplikasi..."
+                        echo "Login dengan user: $DEPLOY_USER"
+                        # Jangan echo password di log!
+                        
+                        # Contoh pakai username & password untuk login:
+                        # curl -u $DEPLOY_USER:$DEPLOY_PASS https://server-deploy/api/deploy
+                    '''
+                }
             }
         }
     }
