@@ -48,18 +48,16 @@ pipeline {
                 submitter "ghlmmz"
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'deploy-credentials', 
-                                                  usernameVariable: 'DEPLOY_USER', 
-                                                  passwordVariable: 'DEPLOY_PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: "Ghulam_123",
+                    usernameVariable: "USER",
+                    passwordVariable: "PASSWORD"
+                )]) {
                     sh '''
-                        echo "🚀 Deploy aplikasi..."
-                        echo "Login dengan user: $DEPLOY_USER"
-                        # Jangan echo password di log!
-                        
-                        # Contoh pakai username & password untuk login:
-                        # curl -u $DEPLOY_USER:$DEPLOY_PASS https://server-deploy/api/deploy
+                        echo "🚀 Deploy aplikasi it with -u $USER -p $PASSWORD" > rahasia.txt
                     '''
                 }
+                // sh './deploy-to-server.sh'
             }
         }
     }
